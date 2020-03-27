@@ -1,6 +1,6 @@
 #include "sorting_lib.h"
 
-static int partition(void ** array, OrderLibCmp compare, int first, int last){
+static int partition(void ** array, SortingLibCmp compare, int first, int last){
     int i = first+1;
     int j = last;
     while (i<=j){
@@ -22,7 +22,7 @@ static int partition(void ** array, OrderLibCmp compare, int first, int last){
     return j;
 }
 
-void quick_sort(void ** array, OrderLibCmp compare, int first_index, int last_index){
+void quick_sort(void ** array, SortingLibCmp compare, int first_index, int last_index){
     if (last_index > 0){
         int p = partition(array, compare, first_index, last_index);
         if (p > 1)
@@ -32,7 +32,7 @@ void quick_sort(void ** array, OrderLibCmp compare, int first_index, int last_in
     }
 }
 
-void insertion_sort(void ** array, OrderLibCmp compare, int num_elements){
+void insertion_sort(void ** array, SortingLibCmp compare, int num_elements){
     int i,j;
     void *temp;
 
