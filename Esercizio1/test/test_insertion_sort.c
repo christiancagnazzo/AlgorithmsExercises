@@ -26,7 +26,7 @@ int compare_string(char * a, char * b){
 
 /* array vuoto */
 
-void test_array_disordered(){
+void test_array_int_disordered(){
     int ** array;
     array = malloc(sizeof(int *)*3);
     array[0] = new_int(3);
@@ -46,7 +46,7 @@ void test_array_disordered(){
     free(array);
 }
 
-void test_grow_array(){
+void test_grow_int_array(){
     int ** array;
     array = malloc(sizeof(int *)*3);
     array[0] = new_int(3);
@@ -62,7 +62,7 @@ void test_grow_array(){
     free(array);
 }
 
-void test_desc_array(){
+void test_desc_int_array(){
     int ** array;
     array = malloc(sizeof(int *)*3);
     array[0] = new_int(5);
@@ -78,7 +78,7 @@ void test_desc_array(){
     free(array);
 }
 
-void test_one_el_array(){
+void test_one_int_array(){
     int ** array;
     array = malloc(sizeof(int *)*1);
     array[0] = new_int(5);
@@ -90,6 +90,27 @@ void test_one_el_array(){
     free(array);
 }
 
+void test_array_int_equals(){
+    int ** array;
+    array = malloc(sizeof(int *)*6);
+    array[0] = new_int(5);
+    array[1] = new_int(5);
+    array[2] = new_int(3);
+    array[3] = new_int(2);
+    array[4] = new_int(2);
+    array[5] = new_int(3);
+    
+    insertion_sort((void*)array,(OrderLibCmp) compare_ints, 6);
+
+    TEST_ASSERT_EQUAL(2, * (int *)array[0]);
+    TEST_ASSERT_EQUAL(2, * (int *)array[1]);
+    TEST_ASSERT_EQUAL(3, * (int *)array[2]);
+    TEST_ASSERT_EQUAL(3, * (int *)array[3]);
+    TEST_ASSERT_EQUAL(5, * (int *)array[4]);
+    TEST_ASSERT_EQUAL(5, * (int *)array[5]);
+    
+    free(array);
+}
 
 void test_array_char(){
     char ** a = malloc(sizeof(char)*3);
@@ -106,16 +127,25 @@ void test_array_char(){
     free(a);
 }
 
+void test_empty_array(){
+    char ** a = NULL;
+
+    insertion_sort((void *)a, (OrderLibCmp) compare_string,0);
+
+    TEST_ASSERT_EQUAL(NULL, a);
+}
 
 
 int main(){
     UNITY_BEGIN();
 
-    RUN_TEST(test_array_disordered);
-    RUN_TEST(test_grow_array);
-    RUN_TEST(test_desc_array);
-    RUN_TEST(test_one_el_array);
+    RUN_TEST(test_array_int_disordered);
+    RUN_TEST(test_grow_int_array);
+    RUN_TEST(test_desc_int_array);
+    RUN_TEST(test_one_int_array);
     RUN_TEST(test_array_char);
+    RUN_TEST(test_array_int_equals);
+    RUN_TEST(test_empty_array);
 
     UNITY_END();
 
