@@ -8,4 +8,6 @@ typedef int (*OrderLibCmp)(void*, void*);
 */
 void insertion_sort(void ** array, OrderLibCmp, int num_elements);
 
-void quick_sort(void * array, OrderLibCmp);
+/*
+*/
+void quick_sort(void ** array, OrderLibCmp, int first_index, int last_index);
