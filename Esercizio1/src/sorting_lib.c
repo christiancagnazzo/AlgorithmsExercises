@@ -1,4 +1,4 @@
-#include "order_lib.h"
+#include "sorting_lib.h"
 
 static int partition(void ** array, OrderLibCmp compare, int first, int last){
     int i = first+1;

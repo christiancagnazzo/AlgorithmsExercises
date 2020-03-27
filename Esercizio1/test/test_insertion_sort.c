@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include "unity.h"
-#include "order_lib.h"
+#include "sorting_lib.h"
 
 static int* new_int(int n) {
     int* result = (int*) malloc(sizeof(int));

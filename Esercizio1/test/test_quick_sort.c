@@ -1,5 +1,6 @@
-#include "order_lib.h"
+#include "sorting_lib.h"
 #include "unity.h"
+#include <string.h>
 #include <stdlib.h>
 
 static int* new_int(int n) {

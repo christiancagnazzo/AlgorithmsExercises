@@ -1,5 +1,4 @@
 #pragma once
-#include <memory.h>
 
 typedef int (*OrderLibCmp)(void*, void*);
 
