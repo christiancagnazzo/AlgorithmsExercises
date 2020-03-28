@@ -22,17 +22,17 @@ static int partition(void ** array, SortingLibCmp compare, int first, int last){
     return j;
 }
 
-void quick_sort(void ** array, SortingLibCmp compare, int first_index, int last_index){
+void Sorting_Lib_quick_sort(void ** array, SortingLibCmp compare, int first_index, int last_index){
     if (last_index > 0){
         int p = partition(array, compare, first_index, last_index);
         if (p > 1)
-            quick_sort(array, compare, 0, p-1);
+            Sorting_Lib_quick_sort(array, compare, 0, p-1);
         if (p < last_index-1)
-            quick_sort(array, compare, p+1, last_index);
+            Sorting_Lib_quick_sort(array, compare, p+1, last_index);
     }
 }
 
-void insertion_sort(void ** array, SortingLibCmp compare, int num_elements){
+void Sorting_Lib_insertion_sort(void ** array, SortingLibCmp compare, int num_elements){
     int i,j;
     void *temp;
 

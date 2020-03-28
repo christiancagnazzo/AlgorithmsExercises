@@ -4,7 +4,8 @@
 #include <stdlib.h>
 
 #define ERROR_EXIT_CODE 1
-#define SIZE 20000000
+#define SIZE_ARRAY 100
+#define SIZE_PRINT_TEST 5
 
 typedef struct {
     int id;
@@ -20,7 +21,7 @@ typedef struct {
  } Options;
 
 void print_usage() {
-    printf("Usage: sorting_lib_app < -1 | -2 > < -A -B -C > <filename>\n");
+    printf("Usage: app < -1 | -2 > < -A -B -C > <filename>\n");
     printf("    -1: sort through the insertion sort algorithm\n");
     printf("    -2: sort through the quick sort algorithm\n");
     printf("    -A: sort according to the first field ascending order\n");
@@ -87,7 +88,7 @@ void load_data(Record ** array, const char * file_name){
     float field_three;
     int i = 0;
 
-    while (!feof(file)){
+    while (!feof(file) && i < SIZE_ARRAY){
         Record * record = malloc(sizeof(Record));
         
         int n = fscanf(file, "%d,%1024[^,],%d,%f\n", &id, field_one, &field_two, &field_three);
@@ -113,26 +114,26 @@ void load_data(Record ** array, const char * file_name){
 }
 
 void free_data(Record ** array){
-    for (int i = 0; i < SIZE; i++)
+    for (int i = 0; i < SIZE_ARRAY; i++)
         free(array[i]);
     free(array);
+}
+
+void test_print(Record ** array, int elem){
+    for (int i = 0; i < elem; i++){
+        Record * rec = array[i];
+        printf("ID: %d\t FIELD_ONE: %s\t\t FIELD_TWO: %d\t FIELD_THREE: %f\n",rec->id,rec->field_one,rec->field_two,rec->field_three);
+    }
 }
 
 int main(int argc, char const *argv[]){
 
     Options options = parse_options(argc, argv);
-    Record ** array = malloc(sizeof(Record *)*SIZE); 
+    Record ** array = malloc(sizeof(Record *)*SIZE_ARRAY); 
     load_data(array, options.file_name);
-    if (options.algorithm == 1) insertion_sort((void **) array,options.comparison_fun,SIZE);
-    else if (options.algorithm == 2) quick_sort((void **) array,options.comparison_fun,0,SIZE-1);
-
-    /*STAMPA PROVA*/
-    for (int i = 0; i < 10; i++){
-        Record * rec = array[i];
-        printf("ID: %d\t FIELD_ONE: %s\t\t FIELD_TWO: %d\t FIELD_THREE: %f\n",rec->id,rec->field_one,rec->field_two,rec->field_three);
-    }
-    /**/
-
+    if (options.algorithm == 1) Sorting_Lib_insertion_sort((void **) array,options.comparison_fun,SIZE_ARRAY);
+    else if (options.algorithm == 2) Sorting_Lib_quick_sort((void **) array,options.comparison_fun,0,SIZE_ARRAY-1);
+    test_print(array,SIZE_PRINT_TEST);
     free_data(array);
 
 }
