@@ -135,8 +135,6 @@ void test_empty_array(){
     TEST_ASSERT_EQUAL(NULL, a);
 }
 
-
-
 int main(){
     UNITY_BEGIN();
     

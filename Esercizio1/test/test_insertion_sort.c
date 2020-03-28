@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include "unity.h"
 #include "sorting_lib.h"
+#include "string.h"
 
 static int* new_int(int n) {
     int* result = (int*) malloc(sizeof(int));
@@ -23,8 +24,6 @@ int compare_ints(int * a, int * b){
 int compare_string(char * a, char * b){ 
     return strcmp(a,b);
 }
-
-/* array vuoto */
 
 void test_array_int_disordered(){
     int ** array;
