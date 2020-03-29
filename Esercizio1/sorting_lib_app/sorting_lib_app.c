@@ -4,7 +4,7 @@
 #include <stdlib.h>
 
 #define ERROR_EXIT_CODE 1
-#define SIZE_ARRAY 100
+#define SIZE_ARRAY 20000000
 #define SIZE_PRINT_TEST 5
 
 typedef struct {
@@ -119,6 +119,7 @@ void free_data(Record ** array){
 }
 
 void test_print(Record ** array, int elem){
+  int s = 0;
   for (int i = 0; i < elem; i++){
     Record * rec = array[i];
     printf("ID: %d\t FIELD_ONE: %s\t\t FIELD_TWO: %d\t FIELD_THREE: %f\n",rec->id,rec->field_one,rec->field_two,rec->field_three);
@@ -130,9 +131,9 @@ int main(int argc, char const *argv[]){
   Record ** array = malloc(sizeof(Record *)*SIZE_ARRAY); 
   load_data(array, options.file_name);
   if (options.algorithm == 1)
-    Sorting_Lib_insertion_sort((void **) array,options.comparison_fun,SIZE_ARRAY);
+    SortingLib_insertion_sort((void **) array,options.comparison_fun,SIZE_ARRAY);
   else if (options.algorithm == 2) 
-    Sorting_Lib_quick_sort((void **) array,options.comparison_fun,0,SIZE_ARRAY-1);
+    SortingLib_quick_sort((void **) array,options.comparison_fun,0,SIZE_ARRAY-1);
   test_print(array,SIZE_PRINT_TEST);
   free_data(array);
 }

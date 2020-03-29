@@ -32,7 +32,7 @@ void test_array_int_equals(){
   array[1] = new_int(2);
   array[2] = new_int(2);
   
-  Sorting_Lib_quick_sort((void*)array,(SortingLibCmp) compare_ints, 0,2);
+  SortingLib_quick_sort((void*)array,(SortingLibCmp) compare_ints, 0,2);
 
   TEST_ASSERT_EQUAL(2, * (int *)array[0]);
   TEST_ASSERT_EQUAL(2, * (int *)array[1]);
@@ -52,7 +52,7 @@ void test_array_int_disordered(){
   TEST_ASSERT_EQUAL(7, * (int *)array[1]);
   TEST_ASSERT_EQUAL(2, * (int *)array[2]);
 
-  Sorting_Lib_quick_sort((void*)array,(SortingLibCmp) compare_ints, 0,2);
+  SortingLib_quick_sort((void*)array,(SortingLibCmp) compare_ints, 0,2);
 
   TEST_ASSERT_EQUAL(2, * (int *)array[0]);
   TEST_ASSERT_EQUAL(3, * (int *)array[1]);
@@ -68,7 +68,7 @@ void test_grow_int_array(){
   array[1] = new_int(4);
   array[2] = new_int(5);
 
-  Sorting_Lib_quick_sort((void*)array,(SortingLibCmp) compare_ints, 0,2);
+  SortingLib_quick_sort((void*)array,(SortingLibCmp) compare_ints, 0,2);
 
   TEST_ASSERT_EQUAL(3, * (int *) array[0]);
   TEST_ASSERT_EQUAL(4, * (int *) array[1]);
@@ -84,7 +84,7 @@ void test_desc_int_array(){
   array[1] = new_int(4);
   array[2] = new_int(3);
 
-  Sorting_Lib_quick_sort((void*)array,(SortingLibCmp) compare_ints, 0,2);
+  SortingLib_quick_sort((void*)array,(SortingLibCmp) compare_ints, 0,2);
 
   TEST_ASSERT_EQUAL(3, * (int *) array[0]);
   TEST_ASSERT_EQUAL(4, * (int *) array[1]);
@@ -98,7 +98,7 @@ void test_one_int_array(){
   array = malloc(sizeof(int *)*1);
   array[0] = new_int(5);
   
-  Sorting_Lib_quick_sort((void*)array,(SortingLibCmp) compare_ints, 0,0);
+  SortingLib_quick_sort((void*)array,(SortingLibCmp) compare_ints, 0,0);
 
   TEST_ASSERT_EQUAL(5, * (int *) array[0]);
   
@@ -112,7 +112,7 @@ void test_array_char(){
   a[1] = new_char('O');
   a[2] = new_char('A');
   
-  Sorting_Lib_quick_sort((void*)a,(SortingLibCmp) compare_string, 0,2);
+  SortingLib_quick_sort((void*)a,(SortingLibCmp) compare_string, 0,2);
 
   TEST_ASSERT_EQUAL('A',* (char *)a[0]);
   TEST_ASSERT_EQUAL('C',* (char *)a[1]);
@@ -124,7 +124,7 @@ void test_array_char(){
 void test_empty_array(){
   char ** a = NULL;
 
-  Sorting_Lib_quick_sort((void *)a, (SortingLibCmp) compare_string,0,0);
+  SortingLib_quick_sort((void *)a, (SortingLibCmp) compare_string,0,0);
 
   TEST_ASSERT_EQUAL(NULL, a);
 }

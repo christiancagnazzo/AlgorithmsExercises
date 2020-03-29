@@ -9,7 +9,7 @@ typedef int (*SortingLibCmp)(void*, void*);
   object is smaller than the first, returns 0 if they are equal
   and it returns a value larger than 0 if the first object is larger than the second.
 */
-void Sorting_Lib_insertion_sort(void ** array, SortingLibCmp, int num_elements);
+void SortingLib_insertion_sort(void ** array, SortingLibCmp, int num_elements);
 
 /* Sort the elements of an array by the quick sort algorithm. 
   Parameters: array of object pointer, pointer to  a comparison function, starting and ending 
@@ -19,4 +19,4 @@ void Sorting_Lib_insertion_sort(void ** array, SortingLibCmp, int num_elements);
   object is smaller than the first, returns 0 if they are equal
   and it returns a value larger than 0 if the first object is larger than the second.
 */
-void Sorting_Lib_quick_sort(void ** array, SortingLibCmp, int first_index, int last_index);
+void SortingLib_quick_sort(void ** array, SortingLibCmp, int first_index, int last_index);
