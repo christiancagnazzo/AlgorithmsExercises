@@ -1,4 +1,11 @@
 public class EditDistance{
+  
+  /*
+  * Edit distance calculates the minimum distance 
+  * between the strings s1 and s2 passed as a parameter. 
+  * The edit distance is defined as the minimum number of cancellations and insertions 
+  * to be made to transform the string s2 into the string s1.
+  */ 
   public static int edit_distance(String s1, String s2){
     int d_nop, d_canc, d_ins;
     
@@ -18,6 +25,28 @@ public class EditDistance{
     
     return Math.min(Math.min(d_nop, d_ins),d_canc);
   }
+
+  /*
+  * Edit distance dynamic calculates the minimum distance between 
+  * the strings s1 and s2 passed as a parameter 
+  * using dynamic programming
+  */ 
+  public static int edit_distance_dyn(String s1, String s2){
+    if (s1.length() == 0)   
+      return s2.length();
+    
+    if (s2.length() == 0)
+      return s1.length();
+    
+    int[][] memo = new int[s2.length()][s1.length()]; 
+
+    for (int i = 0; i < s2.length(); i++ )
+      for (int j = 0; j < s1.length(); j++)
+        memo[i][j] = Integer.MAX_VALUE;  
+    
+    return edit(s1,s2,memo);
+  }
+
 
   private static int edit(String s1, String s2, int[][] memo){
     int i = s2.length()-1;
@@ -41,19 +70,4 @@ public class EditDistance{
     return memo[i][j];
   }
 
-  public static int edit_distance_dyn(String s1, String s2){
-    if (s1.length() == 0)   
-      return s2.length();
-    
-    if (s2.length() == 0)
-      return s1.length();
-    
-    int[][] memo = new int[s2.length()][s1.length()]; 
-
-    for (int i = 0; i < s2.length(); i++ )
-      for (int j = 0; j < s1.length(); j++)
-        memo[i][j] = Integer.MAX_VALUE;  
-    
-    return edit(s1,s2,memo);
-  }
 }

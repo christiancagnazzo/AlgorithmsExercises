@@ -4,6 +4,7 @@ import java.util.ArrayList;
 public class AppEditDistance {
   
   private static ArrayList<String> load_data(String pathname){
+    
     ArrayList<String> str = new ArrayList<String>();
     try {
       FileReader filein = new FileReader(pathname);      
@@ -23,35 +24,40 @@ public class AppEditDistance {
       e.printStackTrace();
     }
     return str;
+
+  }
+
+  public static void print(String word, ArrayList<String> corrector){
+
+    System.out.println("\nParola:\t "+word);
+    System.out.print("Forse volevi scrivere:\t");
+    
+    for (int i = 0; i < corrector.size(); i++)
+      System.out.print(corrector.get(i)+"\t");
+
   }
 
   public static void correct_me(ArrayList<String> dictionary, ArrayList<String> text){
+    
     ArrayList<String> list = new ArrayList<String>();
-
+    
     for (int i = 0; i < text.size(); i++){
       list.clear();  
       int min = Integer.MAX_VALUE;
       for (int j = 0; j < dictionary.size(); j++){
         int k = EditDistance.edit_distance_dyn(dictionary.get(j), text.get(i));
-        if (k == 0){
-        list.clear();
-        break;
+        if (k < min){
+          list.clear();
+          min = k;
+          list.add(dictionary.get(j));
         }
-      if (k < min){
-        list.clear();
-        min = k;
-        list.add(dictionary.get(j));
+        else if (k == min)
+          list.add(dictionary.get(j));
       }
-      else if (k == min)
-        list.add(dictionary.get(j));
-    }
-      
-    System.out.println("Parola : "+text.get(i));
-    System.out.print("Forse volevi scrivere :");
-    for (int z = 0; z < list.size(); z++)
-      System.out.print(" - "+list.get(z));
-      System.out.println("");
-    }
+    
+    //print(text.get(i),list);
+
+    }  
   }
   
 
@@ -66,5 +72,6 @@ public class AppEditDistance {
     ArrayList<String> text = load_data(args[1]);
 
     correct_me(dictionary, text);
-  }
+
+    }
 }
