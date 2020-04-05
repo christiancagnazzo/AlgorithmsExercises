@@ -56,10 +56,4 @@ public class EditDistance{
     
     return edit(s1,s2,memo);
   }
-
-  public static void main(String[] args) {
-    String s1 = "casa";
-    String s2 = "castoro";
-    System.out.println(edit_distance_dyn(s1, s2));
-  }
 }
