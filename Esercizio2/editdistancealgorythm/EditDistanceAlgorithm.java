@@ -1,5 +1,3 @@
-package editdistancealgorythm.src;
-
 public class EditDistanceAlgorithm {
   
   /*

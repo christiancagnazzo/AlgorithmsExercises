@@ -1,6 +1,3 @@
-package editdistancealgorythm.test;
-
-import editdistancealgorythm.src.EditDistanceAlgorithm;
 import org.junit.*;
 import static org.junit.Assert.*;
 
@@ -43,7 +40,7 @@ public class TestEditDistanceAlgorithm {
     String s1 = "";
     String s2 = "";
 
-    assertTrue( EditDistanceAlgorithm.editDistance(s1, s2) == 0);
+    assertTrue( EditDistanceAlgorithm.editDistanceDyn(s1, s2) == 0);
   }
 
   @Test
@@ -51,7 +48,7 @@ public class TestEditDistanceAlgorithm {
     String s1 = "rosso";
     String s2 = "";
 
-    assertTrue( EditDistanceAlgorithm.editDistance(s1, s2) == s1.length());
+    assertTrue( EditDistanceAlgorithm.editDistanceDyn(s1, s2) == s1.length());
   }
 
   @Test
@@ -59,7 +56,7 @@ public class TestEditDistanceAlgorithm {
     String s1 = "pioppo";
     String s2 = "pioppo";
 
-    assertTrue( EditDistanceAlgorithm.editDistance(s1, s2) == 0);
+    assertTrue( EditDistanceAlgorithm.editDistanceDyn(s1, s2) == 0);
   }
 
   @Test
@@ -67,7 +64,7 @@ public class TestEditDistanceAlgorithm {
     String s1 = "tassa";
     String s2 = "passato";
 
-    assertTrue( EditDistanceAlgorithm.editDistance(s1, s2) == 4);
+    assertTrue( EditDistanceAlgorithm.editDistanceDyn(s1, s2) == 4);
   }
   
 }

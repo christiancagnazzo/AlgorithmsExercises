@@ -1,8 +1,5 @@
-package editdistancealgorythm.edit_distance_app;
-
 import java.io.*;
 import java.util.ArrayList;
-import editdistancealgorythm.src.EditDistanceAlgorithm;
 
 public class AppEditDistance {
   
