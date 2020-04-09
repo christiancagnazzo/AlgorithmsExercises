@@ -4,6 +4,14 @@ import static org.junit.Assert.*;
 public class TestEditDistanceAlgorithm {
 
   @Test
+  public void testEditDistanceNullString(){
+    String s1 = "vino";
+    String s2 = null;
+
+    assertTrue( EditDistanceAlgorithm.editDistance(s1, s2) == -1);
+  }
+
+  @Test
   public void testEditDistanceEmptyString(){
     String s1 = "";
     String s2 = "";
@@ -33,6 +41,14 @@ public class TestEditDistanceAlgorithm {
     String s2 = "passato";
 
     assertTrue( EditDistanceAlgorithm.editDistance(s1, s2) == 4);
+  }
+
+  @Test
+  public void testEditDistanceDynNullString(){
+    String s1 = "vino";
+    String s2 = null;
+
+    assertTrue( EditDistanceAlgorithm.editDistanceDyn(s1, s2) == -1);
   }
 
   @Test

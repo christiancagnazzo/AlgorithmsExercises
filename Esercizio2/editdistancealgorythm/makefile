@@ -20,7 +20,7 @@ clean:
 test:
 	java $(JFLAGS) org.junit.runner.JUnitCore TestEditDistanceAlgorithm
 	
-app:
+app: 
 	java AppEditDistance dataset/dictionary.txt dataset/correctme.txt
 	
 

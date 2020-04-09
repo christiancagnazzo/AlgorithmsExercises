@@ -4,11 +4,14 @@ public class EditDistanceAlgorithm {
   * Edit distance calculates the minimum distance 
   * between the strings s1 and s2 passed as a parameter. 
   * The edit distance is defined as the minimum number of cancellations and insertions 
-  * to be made to transform the string s2 into the string s1.
+  * to be made to transform the string s2 into the string s1. Return -1 if strings are null.
   */ 
-  public static int editDistance(final String s1, final String s2){
+  public static int editDistance( String s1,  String s2){
     int d_nop, d_canc, d_ins;
     
+    if (s1 == null || s2 == null)
+      return -1;
+
     if (s1.length() == 0)
       return s2.length();
     
@@ -29,16 +32,19 @@ public class EditDistanceAlgorithm {
   /*
   * Edit distance dynamic calculates the minimum distance between 
   * the strings s1 and s2 passed as a parameter 
-  * using dynamic programming
+  * using dynamic programming. Return -1 if strings are null.
   */ 
-  public static int editDistanceDyn(final String s1, final String s2){
+  public static int editDistanceDyn(String s1,String s2){
+    if (s1 == null || s2 == null)
+      return -1;
+    
     if (s1.length() == 0)   
       return s2.length();
     
     if (s2.length() == 0)
       return s1.length();
     
-    final int[][] memo = new int[s2.length()][s1.length()]; 
+    int[][] memo = new int[s2.length()][s1.length()]; 
 
     for (int i = 0; i < s2.length(); i++ )
       for (int j = 0; j < s1.length(); j++)
@@ -47,10 +53,9 @@ public class EditDistanceAlgorithm {
     return edit(s1,s2,memo);
   }
 
-
-  private static int edit(final String s1, final String s2, final int[][] memo){
-    final int row = s2.length()-1;
-    final int col = s1.length()-1;
+  private static int edit( String s1,  String s2,  int[][] memo){
+    int row = s2.length()-1;
+    int col = s1.length()-1;
     
     if (s1.length() == 0)   
       return s2.length();

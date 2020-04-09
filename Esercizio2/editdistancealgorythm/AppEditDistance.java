@@ -56,7 +56,7 @@ public class AppEditDistance {
       }
     
     print(text.get(i),list);
-
+    
     }  
   }
   
