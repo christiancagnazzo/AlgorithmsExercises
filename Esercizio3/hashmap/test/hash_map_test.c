@@ -109,7 +109,6 @@ static void hash_map_all_key_test(){
   free(hash);
 }
 
-
 int main(){
 
   UNITY_BEGIN();

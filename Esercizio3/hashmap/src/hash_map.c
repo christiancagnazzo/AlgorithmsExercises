@@ -84,7 +84,7 @@ int HashMap_key_is_present(HashMap * hash_map, void * key){
 }
 
 
-void HashMap_insert(HashMap * hash_map, void * key, void * value){ /* controllo se c'è gia?? */
+void HashMap_insert(HashMap * hash_map, void * key, void * value){
   int pos = hash_map->hash_fun(key) % hash_map->table_capacity;
   
   if (hash_map->table[pos] == NULL){
@@ -106,6 +106,7 @@ void HashMap_insert(HashMap * hash_map, void * key, void * value){ /* controllo 
   }
 
   hash_map->num_elemets++;
+
 }
 
 
