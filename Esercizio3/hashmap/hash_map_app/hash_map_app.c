@@ -7,10 +7,9 @@
 #define TRUE 1
 #define FALSE 0
 #define ERROR_EXIT_CODE 1
-#define CAPACITY_TABLE 6321078
 #define SIZE_ARRAY 6321078
 #define NUM_RANDOM_KEYS 10000000
-
+#define CAPACITY 6500000
 
 int * int_pointer(int x){
   int * ris = (int *) malloc (sizeof(int));
@@ -20,7 +19,7 @@ int * int_pointer(int x){
 
 
 int hash_function(int * key){
-  return *key % CAPACITY_TABLE;
+  return *key;
 }
 
 
@@ -75,9 +74,11 @@ void load_data_array(Couple * array_couples, const char * file_name){
       exit(ERROR_EXIT_CODE);
     }
 
-    array_couples[i].key = key;
-    array_couples[i].value = value; 
-    i++;   
+    if (ArrayLib_binary_search_value(array_couples,key,0,i) == -1){
+      array_couples[i].key = key;
+      array_couples[i].value = value; 
+      i++;   
+    }
   }
 
   ArrayLib_quick_sort_int(array_couples,0,SIZE_ARRAY-1);
@@ -142,7 +143,7 @@ int main(int argc, char const *argv[]) {
   }
   
   /* LOAD DATA HASH MAP */
-  HashMap * hash = HashMap_new((HashFunction) hash_function, (KeyCompare) compare_keys, CAPACITY_TABLE);
+  HashMap * hash = HashMap_new((HashFunction) hash_function, (KeyCompare) compare_keys, CAPACITY);
   load_data_hash_map(hash, argv[1]);
  
   /* LOAD DATA ARRAY */

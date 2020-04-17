@@ -45,5 +45,3 @@ int ArrayLib_binary_search_value(Couple * array, int key, int first_index, int l
       return ArrayLib_binary_search_value(array,key,m+1,last_index);
   }        
 }
-
-

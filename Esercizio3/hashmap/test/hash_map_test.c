@@ -2,7 +2,7 @@
 #include "unity.h"
 #include <stdlib.h>
 
-#define M 5
+#define CAPACITY 2
 
 int * new_int(int x){
   int * ris = (int *) malloc (sizeof(int));
@@ -11,7 +11,7 @@ int * new_int(int x){
 }
 
 int hash_function(int * key){
-  return *key % M;
+  return *key;
 }
 
 int compare_keys(int * key_one, int * key_two){
@@ -19,7 +19,7 @@ int compare_keys(int * key_one, int * key_two){
 }
 
 HashMap * create_test_object(){
-  HashMap * hash = HashMap_new((HashFunction) hash_function, (KeyCompare) compare_keys, M);
+  HashMap * hash = HashMap_new((HashFunction) hash_function, (KeyCompare) compare_keys, CAPACITY);
   
   HashMap_insert(hash, new_int(2),new_int(30));
   HashMap_insert(hash, new_int(7),new_int(40));
@@ -29,7 +29,7 @@ HashMap * create_test_object(){
 }
 
 static void hash_map_zero_size_table(){
-  HashMap * hash = HashMap_new((HashFunction) hash_function, (KeyCompare) compare_keys, M);
+  HashMap * hash = HashMap_new((HashFunction) hash_function, (KeyCompare) compare_keys, CAPACITY);
   
   TEST_ASSERT_TRUE(HashMap_is_empty(hash)); 
   TEST_ASSERT_EQUAL(0, HashMap_number_associations(hash));
@@ -101,9 +101,9 @@ static void hash_map_all_key_test(){
 
   int ** keys = (void*) HashMap_all_keys(hash);
 
-  TEST_ASSERT_EQUAL(7,*(int*)keys[0]);
+  TEST_ASSERT_EQUAL(8,*(int*)keys[0]);
   TEST_ASSERT_EQUAL(2,*(int*)keys[1]);
-  TEST_ASSERT_EQUAL(8,*(int*)keys[2]);
+  TEST_ASSERT_EQUAL(7,*(int*)keys[2]);
 
   free(keys);
   free(hash);
