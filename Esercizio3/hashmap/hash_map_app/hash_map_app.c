@@ -9,7 +9,7 @@
 #define ERROR_EXIT_CODE 1
 #define SIZE_ARRAY 6321078
 #define NUM_RANDOM_KEYS 10000000
-#define CAPACITY 6500000
+#define CAPACITY 9000067
 
 int * int_pointer(int x){
   int * ris = (int *) malloc (sizeof(int));
@@ -19,7 +19,7 @@ int * int_pointer(int x){
 
 
 int hash_function(int * key){
-  return *key;
+  return *key % CAPACITY;
 }
 
 
@@ -74,18 +74,21 @@ void load_data_array(Couple * array_couples, const char * file_name){
       exit(ERROR_EXIT_CODE);
     }
 
-    if (ArrayLib_binary_search_value(array_couples,key,0,i) == -1){
-      array_couples[i].key = key;
-      array_couples[i].value = value; 
-      i++;   
-    }
+    array_couples[i].key = key;
+    array_couples[i].value = value; 
+    i++;   
   }
 
-  ArrayLib_quick_sort_int(array_couples,0,SIZE_ARRAY-1);
+  clock_t end_one = clock();
 
-  clock_t end = clock();
+  ArrayLib_quick_sort_int(array_couples,0,SIZE_ARRAY-1);
   
-  printf("Loading time with Array: %f sec\n",(double)(end-start)/CLOCKS_PER_SEC);
+  clock_t end_two = clock();
+  
+  printf("Loading time with Array: %f sec + Sorting time %f sec (Total %f)\n",
+                                              (double)(end_one-start)/CLOCKS_PER_SEC,
+                                              (double)(end_two-end_one)/CLOCKS_PER_SEC,
+                                              (double)(end_two-start)/CLOCKS_PER_SEC);
   fclose(file);
 }
 

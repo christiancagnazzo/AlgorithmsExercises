@@ -22,6 +22,7 @@ static int partition(Couple * array, int first, int last){
   return j;
 }
 
+
 void ArrayLib_quick_sort_int(Couple * array, int first_index, int last_index){
   if (last_index - first_index > 0){
     int p = partition(array, first_index, last_index);
@@ -31,6 +32,7 @@ void ArrayLib_quick_sort_int(Couple * array, int first_index, int last_index){
       ArrayLib_quick_sort_int(array, p+1, last_index);
   }
 }
+
 
 int ArrayLib_binary_search_value(Couple * array, int key, int first_index, int last_index){
   if (first_index > last_index)
