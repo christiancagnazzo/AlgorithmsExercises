@@ -128,6 +128,16 @@ void HashMap_insert(HashMap * hash_map, void * key, void * value){
       hash_map = HashMap_resize(hash_map, hash_map->table_capacity*2);
     }
   }
+  else {
+    int pos = get_position(hash_map,hash_map->hash_fun(key));
+
+    Node * current = hash_map->table[pos];
+    while (hash_map->cmp(current->key,key) != 0){
+      current = current->next;
+    }
+
+    current->value = value;
+  }
 }
 
 
