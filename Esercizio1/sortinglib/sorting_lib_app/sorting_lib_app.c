@@ -5,8 +5,8 @@
 #include <time.h>
 
 #define ERROR_EXIT_CODE 1
-#define SIZE_ARRAY 20000000
-#define SIZE_PRINT_TEST 5
+#define SIZE_ARRAY 20000000 
+#define SIZE_PRINT_TEST 10
 
 typedef struct {
   int id;
@@ -25,6 +25,7 @@ void print_usage() {
   printf("Usage: app < -1 | -2 > < -A -B -C > <filename>\n");
   printf("  -1: sort through the insertion sort algorithm\n");
   printf("  -2: sort through the quick sort algorithm\n");
+  printf("  -3: sort through the quick sort three way algorithm\n");
   printf("  -A: sort according to the first field ascending order\n");
   printf("  -B: sort according to the second field ascending order\n");
   printf("  -C: sort according to the third field ascending order\n");
@@ -71,6 +72,8 @@ Options parse_options(int argc, char const *argv[]){
     options.algorithm = 1;
   else if (!strcmp(argv[1], "-2"))
     options.algorithm = 2;
+  else if (!strcmp(argv[1], "-3"))
+    options.algorithm = 3;
     else {
       printf("Parameters error\n");
       print_usage();
@@ -139,7 +142,9 @@ int main(int argc, char const *argv[]){
   if (options.algorithm == 1)
     SortingLib_insertion_sort((void **) array,options.comparison_fun,SIZE_ARRAY);
   else if (options.algorithm == 2) 
-    SortingLib_quick_sort((void **) array,options.comparison_fun,0,SIZE_ARRAY-1);
+    SortingLib_quick_sort((void**) array,options.comparison_fun,0,SIZE_ARRAY-1);
+  else if (options.algorithm == 3)
+    SortingLib_three_way_quicksort((void **) array,options.comparison_fun,0,SIZE_ARRAY-1);
   clock_t end = clock();
   printf("Sorting time: %f\n",(double)(end-start)/CLOCKS_PER_SEC);
   test_print(array,SIZE_PRINT_TEST);

@@ -47,6 +47,38 @@ void SortingLib_insertion_sort(void ** array, SortingLibCmp compare, int num_ele
   }
 }
 
+void SortingLib_three_way_quicksort(void ** array, SortingLibCmp compare, int first_index, int last_index) {
+  if (last_index > first_index){
+    void * temp;
+    int middle_left_index = first_index;
+    int middle_right_index = last_index;
+    void * v = array[first_index];
+    int i = first_index+1;
+
+    while (i <= middle_right_index) {
+      int cmp = compare(array[i],v);
+      if (cmp < 0){
+        temp = array[middle_left_index];
+        array[middle_left_index] = array[i];
+        array[i] = temp;  
+        middle_left_index++;
+        i++;
+      }
+      else if (cmp > 0){
+        temp = array[i];
+        array[i] = array[middle_right_index];
+        array[middle_right_index] = temp;  
+        middle_right_index--;
+      }
+      else
+        i++;
+    }
+
+    SortingLib_three_way_quicksort(array, compare, first_index, middle_left_index-1);
+    SortingLib_three_way_quicksort(array, compare, middle_right_index+1, last_index);
+  }
+}
+
 
 
 
