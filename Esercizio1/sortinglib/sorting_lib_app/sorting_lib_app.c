@@ -2,6 +2,7 @@
 #include <string.h>
 #include "sorting_lib.h"
 #include <stdlib.h>
+#include <time.h>
 
 #define ERROR_EXIT_CODE 1
 #define SIZE_ARRAY 20000000
@@ -38,7 +39,11 @@ int compare_second_field(Record * rec1, Record * rec2){
 }
 
 int compare_third_field(Record * rec1, Record * rec2){
-  return rec1->field_three - rec2->field_three;
+  if (rec1->field_three > rec2->field_three)
+    return 1;
+  else if (rec1->field_three < rec2->field_three)
+    return -1;
+  else return 0;
 }
 
 Options parse_options(int argc, char const *argv[]){
@@ -130,10 +135,13 @@ int main(int argc, char const *argv[]){
   Options options = parse_options(argc, argv);
   Record ** array = malloc(sizeof(Record *)*SIZE_ARRAY); 
   load_data(array, options.file_name);
+  clock_t start = clock();
   if (options.algorithm == 1)
     SortingLib_insertion_sort((void **) array,options.comparison_fun,SIZE_ARRAY);
   else if (options.algorithm == 2) 
     SortingLib_quick_sort((void **) array,options.comparison_fun,0,SIZE_ARRAY-1);
+  clock_t end = clock();
+  printf("Sorting time: %f\n",(double)(end-start)/CLOCKS_PER_SEC);
   test_print(array,SIZE_PRINT_TEST);
   free_data(array);
 }
