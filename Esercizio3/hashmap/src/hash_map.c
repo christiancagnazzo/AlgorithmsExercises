@@ -25,6 +25,21 @@ struct _HashMap {
 };
 
 
+int HashMap_get_hash(HashMap * hash_map, int hash_code){
+  int position = hash_code % hash_map->table_capacity; 
+  return position;
+}
+
+Node * HashMap_new_node(void * key, void * value){
+  Node * result = (Node*) malloc(sizeof(Node));
+  result->key = key;
+  result->value = value;
+  result->next = NULL;
+  result->prev = NULL;
+  return result;
+}
+
+
 HashMap * HashMap_new(HashFunction hash_fun, KeyCompare cmp, int capacity){ 
   HashMap * result = (HashMap*) malloc(sizeof(HashMap));
   result->num_elements = 0;
@@ -36,12 +51,6 @@ HashMap * HashMap_new(HashFunction hash_fun, KeyCompare cmp, int capacity){
   result->hash_fun = hash_fun;
   result->cmp = cmp;
   return result;
-}
-
-
-static int get_position(HashMap * hash_map, int hash_code){
-  int position = hash_code % hash_map->table_capacity; 
-  return position;
 }
 
 
@@ -63,6 +72,7 @@ void HashMap_resize(HashMap * hash_map, int memsize){
   new_hash_map->table = tmp_table;
   free(new_hash_map);
 }
+
 
 void HashMap_free(HashMap * hash_map){
   HashMap_delete_all_associations(hash_map);
@@ -96,7 +106,7 @@ void HashMap_delete_all_associations(HashMap * hash_map){
 
 
 int HashMap_key_is_present(HashMap * hash_map, void * key){
-  int pos = get_position(hash_map,hash_map->hash_fun(key));
+  int pos = HashMap_get_hash(hash_map,hash_map->hash_fun(key));
 
   Node * current = hash_map->table[pos];
   while (current != NULL){
@@ -116,27 +126,22 @@ void HashMap_insert(HashMap * hash_map, void * key, void * value){
     HashMap_resize(hash_map,hash_map->table_capacity*2);
   }
 
-
   if (!HashMap_key_is_present(hash_map,key)){
   
-    Node * result = (Node*) malloc(sizeof(Node));
-    result->key = key;
-    result->value = value;
-    result->next = NULL;
-    result->prev = NULL;
-
-    int pos = get_position(hash_map,hash_map->hash_fun(key));
+    Node * new = HashMap_new_node(key,value);
+    
+    int pos = HashMap_get_hash(hash_map,hash_map->hash_fun(key));
     
     if (hash_map->table[pos] != NULL){
-      result->next = hash_map->table[pos];
-      result->next->prev = result;  
+      new->next = hash_map->table[pos];
+      new->next->prev = new;  
     }
 
-    hash_map->table[pos] = result;
+    hash_map->table[pos] = new;
     hash_map->num_elements++;
   }
   else {
-    int pos = get_position(hash_map,hash_map->hash_fun(key));
+    int pos = HashMap_get_hash(hash_map,hash_map->hash_fun(key));
 
     Node * current = hash_map->table[pos];
     while (hash_map->cmp(current->key,key) != 0){
@@ -149,7 +154,7 @@ void HashMap_insert(HashMap * hash_map, void * key, void * value){
 
 
 void * HashMap_get_value(HashMap * hash_map, void * key){
-  int pos = get_position(hash_map,hash_map->hash_fun(key));
+  int pos = HashMap_get_hash(hash_map,hash_map->hash_fun(key));
 
   Node * current = hash_map->table[pos];
   while (current != NULL){
@@ -169,7 +174,7 @@ void HashMap_delete(HashMap * hash_map, void * key){
     HashMap_resize(hash_map,hash_map->table_capacity/2);
   }
   
-  int pos = get_position(hash_map,hash_map->hash_fun(key));
+  int pos = HashMap_get_hash(hash_map,hash_map->hash_fun(key));
 
   Node * current = hash_map->table[pos];
   while (current != NULL && hash_map->cmp(current->key,key) != 0)

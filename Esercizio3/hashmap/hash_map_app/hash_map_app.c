@@ -148,7 +148,7 @@ int main(int argc, char const *argv[]) {
   /* LOAD DATA HASH MAP */
   HashMap * hash = HashMap_new((HashFunction) hash_function, (KeyCompare) compare_keys, CAPACITY);
   load_data_hash_map(hash, argv[1]);
- 
+
   /* LOAD DATA ARRAY */
   static Couple array_couples[SIZE_ARRAY];
   load_data_array(array_couples,argv[1]);
