@@ -19,7 +19,7 @@ int * int_pointer(int x){
 
 
 int hash_function(int * key){
-  return *key % CAPACITY;
+  return *key;
 }
 
 

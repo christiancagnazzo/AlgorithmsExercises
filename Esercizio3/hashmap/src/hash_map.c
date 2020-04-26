@@ -5,6 +5,9 @@
 
 #define TRUE 1
 #define FALSE 0
+#define LOAD_FACTORY_UP 75
+#define LOAD_FACTORY_DOWN 10
+
 
 struct _Node {
   void * key;
@@ -42,7 +45,7 @@ static int get_position(HashMap * hash_map, int hash_code){
 }
 
 
-HashMap * HashMap_resize(HashMap * hash_map, int memsize){
+void HashMap_resize(HashMap * hash_map, int memsize){
   HashMap * new_hash_map = HashMap_new(hash_map->hash_fun, hash_map->cmp, memsize);
   for (int i = 0; i < hash_map->table_capacity; i++){
     Node * current = hash_map->table[i];
@@ -51,14 +54,15 @@ HashMap * HashMap_resize(HashMap * hash_map, int memsize){
       current = current->next;
     }
   }
-  return new_hash_map;
+
+  hash_map->table_capacity = new_hash_map->table_capacity;
+  hash_map->num_elements = new_hash_map->num_elements;
+
+  Node** tmp_table = hash_map->table;
+  hash_map->table = new_hash_map->table;
+  new_hash_map->table = tmp_table;
+  free(new_hash_map);
 }
-
-
-static int threshold(HashMap * hash_map){
-  return (hash_map->table_capacity*0.75f);
-}
-
 
 void HashMap_free(HashMap * hash_map){
   HashMap_delete_all_associations(hash_map);
@@ -106,8 +110,15 @@ int HashMap_key_is_present(HashMap * hash_map, void * key){
 
 
 void HashMap_insert(HashMap * hash_map, void * key, void * value){
-  if (!HashMap_key_is_present(hash_map,key)){
+  int load = hash_map->num_elements * 100 / hash_map->table_capacity;
+  
+  if (load > LOAD_FACTORY_UP){
+    HashMap_resize(hash_map,hash_map->table_capacity*2);
+  }
 
+
+  if (!HashMap_key_is_present(hash_map,key)){
+  
     Node * result = (Node*) malloc(sizeof(Node));
     result->key = key;
     result->value = value;
@@ -123,10 +134,6 @@ void HashMap_insert(HashMap * hash_map, void * key, void * value){
 
     hash_map->table[pos] = result;
     hash_map->num_elements++;
-
-    if (hash_map->num_elements >= threshold(hash_map)){
-      hash_map = HashMap_resize(hash_map, hash_map->table_capacity*2);
-    }
   }
   else {
     int pos = get_position(hash_map,hash_map->hash_fun(key));
@@ -156,6 +163,12 @@ void * HashMap_get_value(HashMap * hash_map, void * key){
 
 
 void HashMap_delete(HashMap * hash_map, void * key){
+  int load = hash_map->num_elements * 100 / hash_map->table_capacity;
+  
+  if (load < LOAD_FACTORY_DOWN){
+    HashMap_resize(hash_map,hash_map->table_capacity/2);
+  }
+  
   int pos = get_position(hash_map,hash_map->hash_fun(key));
 
   Node * current = hash_map->table[pos];
