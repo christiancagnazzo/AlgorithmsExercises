@@ -38,9 +38,13 @@ public class AppEditDistance {
   }
 
   public static void correctMe(ArrayList<String> dictionary, ArrayList<String> text){
+    double start;
+    double end;
     
     ArrayList<String> list = new ArrayList<String>();
     
+    start = System.currentTimeMillis();
+
     for (int i = 0; i < text.size(); i++){
       list.clear();  
       int min = Integer.MAX_VALUE;
@@ -56,8 +60,10 @@ public class AppEditDistance {
       }
     
     print(text.get(i),list);
-    
     }  
+    
+    end = System.currentTimeMillis();
+    System.out.println("Execution time "+(end-start)/1000);
   }
   
 
@@ -72,6 +78,5 @@ public class AppEditDistance {
     ArrayList<String> text = loadData(args[1]);
 
     correctMe(dictionary, text);
-
     }
 }

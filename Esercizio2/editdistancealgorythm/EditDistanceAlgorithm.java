@@ -1,5 +1,6 @@
+
 public class EditDistanceAlgorithm {
-  
+
   /*
   * Edit distance calculates the minimum distance 
   * between the strings s1 and s2 passed as a parameter. 
@@ -14,7 +15,7 @@ public class EditDistanceAlgorithm {
 
     if (s1.length() == 0)
       return s2.length();
-    
+
     if (s2.length() == 0)
       return s1.length();
     
@@ -44,16 +45,16 @@ public class EditDistanceAlgorithm {
     if (s2.length() == 0)
       return s1.length();
     
-    int[][] memo = new int[s2.length()][s1.length()]; 
-
-    for (int i = 0; i < s2.length(); i++ )
-      for (int j = 0; j < s1.length(); j++)
-        memo[i][j] = Integer.MAX_VALUE;  
+    int[] memo = new int[s1.length()*s2.length()];
+    
+    for (int i=0; i < s1.length()*s2.length(); i++)
+          memo[i] = Integer.MAX_VALUE;
     
     return edit(s1,s2,memo);
   }
 
-  private static int edit( String s1,  String s2,  int[][] memo){
+  /* In an array read as a matrix the position [i,j] is found in the index [i*number_of_columns+j] */
+  private static int edit( String s1,  String s2,  int[] memo){
     int row = s2.length()-1;
     int col = s1.length()-1;
     
@@ -63,16 +64,15 @@ public class EditDistanceAlgorithm {
     if (s2.length() == 0)
       return s1.length();
     
-    if (memo[row][col] != Integer.MAX_VALUE){
-      return memo[row][col];
+    if (memo[row*s1.length()+col] != Integer.MAX_VALUE){
+      return memo[row*s1.length()+col];
     }
 
     if (s2.charAt(row) == s1.charAt(col))
-      memo[row][col] = edit(s1.substring(0,col), s2.substring(0, row), memo);
+      memo[row*s1.length()+col] = edit(s1.substring(0,col), s2.substring(0, row), memo);
     else
-      memo[row][col] = Math.min(1 + edit(s1, s2.substring(0, row), memo), 1 +  edit(s1.substring(0,col), s2, memo));
+      memo[row*s1.length()+col] = Math.min(1 + edit(s1, s2.substring(0, row), memo), 1 +  edit(s1.substring(0,col), s2, memo));
 
-    return memo[row][col];
+    return memo[row*s1.length()+col];
   }
-
 }

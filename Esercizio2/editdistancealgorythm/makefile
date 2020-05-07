@@ -10,14 +10,14 @@ CLASSES = \
 	AppEditDistance.java
 	
 
-default: classes
+all: classes
 
 classes: $(CLASSES:.java=.class)
 
 clean:
 	$(RM) *.class
 	
-test:
+test: 
 	java $(JFLAGS) org.junit.runner.JUnitCore TestEditDistanceAlgorithm
 	
 app: 
