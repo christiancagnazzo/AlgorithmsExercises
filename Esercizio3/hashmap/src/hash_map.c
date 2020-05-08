@@ -25,7 +25,7 @@ struct _HashMap {
 };
 
 
-int HashMap_get_hash(HashMap * hash_map, int hash_code){
+int HashMap_get_position(HashMap * hash_map, int hash_code){
   int position = hash_code % hash_map->table_capacity; 
   return position;
 }
@@ -106,7 +106,7 @@ void HashMap_delete_all_associations(HashMap * hash_map){
 
 
 int HashMap_key_is_present(HashMap * hash_map, void * key){
-  int pos = HashMap_get_hash(hash_map,hash_map->hash_fun(key));
+  int pos = HashMap_get_position(hash_map,hash_map->hash_fun(key));
 
   Node * current = hash_map->table[pos];
   while (current != NULL){
@@ -130,18 +130,18 @@ void HashMap_insert(HashMap * hash_map, void * key, void * value){
   
     Node * new = HashMap_new_node(key,value);
     
-    int pos = HashMap_get_hash(hash_map,hash_map->hash_fun(key));
+    int pos = HashMap_get_position(hash_map,hash_map->hash_fun(key));
     
     if (hash_map->table[pos] != NULL){
       new->next = hash_map->table[pos];
       new->next->prev = new;  
     }
-
+   
     hash_map->table[pos] = new;
     hash_map->num_elements++;
   }
   else {
-    int pos = HashMap_get_hash(hash_map,hash_map->hash_fun(key));
+    int pos = HashMap_get_position(hash_map,hash_map->hash_fun(key));
 
     Node * current = hash_map->table[pos];
     while (hash_map->cmp(current->key,key) != 0){
@@ -154,8 +154,8 @@ void HashMap_insert(HashMap * hash_map, void * key, void * value){
 
 
 void * HashMap_get_value(HashMap * hash_map, void * key){
-  int pos = HashMap_get_hash(hash_map,hash_map->hash_fun(key));
-
+  int pos = HashMap_get_position(hash_map,hash_map->hash_fun(key));
+  
   Node * current = hash_map->table[pos];
   while (current != NULL){
     if (hash_map->cmp(current->key,key) == 0)
@@ -163,7 +163,7 @@ void * HashMap_get_value(HashMap * hash_map, void * key){
     current = current->next;  
   }  
 
-  return NULL;
+  return NULL;   
 }
 
 
@@ -174,7 +174,7 @@ void HashMap_delete(HashMap * hash_map, void * key){
     HashMap_resize(hash_map,hash_map->table_capacity/2);
   }
   
-  int pos = HashMap_get_hash(hash_map,hash_map->hash_fun(key));
+  int pos = HashMap_get_position(hash_map,hash_map->hash_fun(key));
 
   Node * current = hash_map->table[pos];
   while (current != NULL && hash_map->cmp(current->key,key) != 0)
@@ -207,4 +207,19 @@ void ** HashMap_all_keys(HashMap * hash_map){
   return keys;
 }
 
+
+void ** HashMap_all_values(HashMap * hash_map){
+  void ** values = (void **) malloc(sizeof(void *)*hash_map->num_elements);
+
+  int j = 0;
+  for (int i = 0; i < hash_map->table_capacity; i++){
+    Node * current = hash_map->table[i];
+    while (current != NULL){
+      values[j++] = current->value; 
+      current = current->next;
+    }
+  }
+  
+  return values;
+}
 

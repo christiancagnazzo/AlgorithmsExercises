@@ -26,6 +26,8 @@ int HashMap_key_is_present(HashMap *, void *);
 
 void ** HashMap_all_keys(HashMap *);
 
+void ** HashMap_all_values(HashMap *);
+
 
 
 
