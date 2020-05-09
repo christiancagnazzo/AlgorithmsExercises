@@ -9,7 +9,7 @@
 #define ERROR_EXIT_CODE 1
 #define SIZE_ARRAY 6321078
 #define NUM_RANDOM_KEYS 10000000
-#define CAPACITY 8921078
+#define CAPACITY 9000067
 
 int * int_pointer(int x){
   int * ris = (int *) malloc (sizeof(int));
@@ -100,7 +100,7 @@ int * get_values_hash_map(HashMap * hash, int * keys){
 
   int num_key = 0;
   for (int i = 0; i < NUM_RANDOM_KEYS; i++){
-    int * val = (int *) HashMap_get_value(hash,int_pointer(keys[i]));
+    int * val = (int *) HashMap_get_value(hash,&keys[i]);
     if (val != NULL){
       values[i] = *val;
       num_key++;
@@ -163,7 +163,7 @@ int main(int argc, char const *argv[]) {
 
   /* RANDOM KEYS */
   int * keys = (int*) malloc(sizeof(int)*NUM_RANDOM_KEYS);
-  srand(238);
+  srand(time(NULL));
   for (int i = 0; i < NUM_RANDOM_KEYS; i++){
     keys[i] = rand() % (NUM_RANDOM_KEYS+1);
   }
@@ -182,13 +182,11 @@ int main(int argc, char const *argv[]) {
 
   /* FREE MEMORY */
   int ** all_keys = (int **) HashMap_all_keys(hash);
-  int ** all_values = (int **) HashMap_all_values(hash);
   for (int i = 0; i < HashMap_number_associations(hash); i++)
     free(all_keys[i]);
-  for (int i = 0; i < HashMap_number_associations(hash); i++)
-    free(all_values[i]);
+  for (int i = 0; i < NUM_RANDOM_KEYS; i++)
+      free(HashMap_get_value(hash, &keys[i]));
   free(all_keys);
-  free(all_values);
   HashMap_free(hash);
   free(keys);
   free(values_hash_map);

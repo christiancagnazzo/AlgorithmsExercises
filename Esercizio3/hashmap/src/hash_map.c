@@ -206,20 +206,3 @@ void ** HashMap_all_keys(HashMap * hash_map){
   
   return keys;
 }
-
-
-void ** HashMap_all_values(HashMap * hash_map){
-  void ** values = (void **) malloc(sizeof(void *)*hash_map->num_elements);
-
-  int j = 0;
-  for (int i = 0; i < hash_map->table_capacity; i++){
-    Node * current = hash_map->table[i];
-    while (current != NULL){
-      values[j++] = current->value; 
-      current = current->next;
-    }
-  }
-  
-  return values;
-}
-
