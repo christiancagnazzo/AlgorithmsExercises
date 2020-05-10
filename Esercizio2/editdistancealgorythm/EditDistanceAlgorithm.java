@@ -48,13 +48,13 @@ public class EditDistanceAlgorithm {
     int[] memo = new int[s1.length()*s2.length()];
     
     for (int i=0; i < s1.length()*s2.length(); i++)
-          memo[i] = Integer.MAX_VALUE;
+      memo[i] = Integer.MAX_VALUE;
     
-    return edit(s1,s2,memo);
+    return edit(s1,s2,memo,s1.length());
   }
 
   /* In an array read as a matrix the position [i,j] is found in the index [i*number_of_columns+j] */
-  private static int edit( String s1,  String s2,  int[] memo){
+  private static int edit( String s1,  String s2,  int[] memo, int columns){
     int row = s2.length()-1;
     int col = s1.length()-1;
     
@@ -64,15 +64,15 @@ public class EditDistanceAlgorithm {
     if (s2.length() == 0)
       return s1.length();
     
-    if (memo[row*s1.length()+col] != Integer.MAX_VALUE){
-      return memo[row*s1.length()+col];
+    if (memo[row*columns+col] != Integer.MAX_VALUE){
+      return memo[row*columns+col];
     }
-
+    
     if (s2.charAt(row) == s1.charAt(col))
-      memo[row*s1.length()+col] = edit(s1.substring(0,col), s2.substring(0, row), memo);
+      memo[row*columns+col] = edit(s1.substring(0,col), s2.substring(0, row), memo, columns);
     else
-      memo[row*s1.length()+col] = Math.min(1 + edit(s1, s2.substring(0, row), memo), 1 +  edit(s1.substring(0,col), s2, memo));
-
-    return memo[row*s1.length()+col];
+      memo[row*columns+col] = Math.min(1 + edit(s1, s2.substring(0, row), memo, columns), 1 +  edit(s1.substring(0,col), s2, memo, columns));
+      
+    return memo[row*columns+col];
   }
 }

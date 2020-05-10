@@ -29,8 +29,8 @@ public class AppEditDistance {
 
   public static void print(String word, ArrayList<String> corrector){
 
-    System.out.println("\nParola:\t "+word);
-    System.out.print("Forse volevi scrivere:\t");
+    System.out.println("\nWord:\t "+word);
+    System.out.print("Correction:\t");
     
     for (int i = 0; i < corrector.size(); i++)
       System.out.print(corrector.get(i)+"\t");
@@ -49,8 +49,13 @@ public class AppEditDistance {
       list.clear();  
       int min = Integer.MAX_VALUE;
       for (int j = 0; j < dictionary.size(); j++){
-        int k = EditDistanceAlgorithm.editDistanceDyn(dictionary.get(j), text.get(i));
-        if (k < min){
+        int k = EditDistanceAlgorithm.editDistanceDyn(dictionary.get(j),text.get(i));
+        if (k == 0){
+          list.clear();
+          list.add(dictionary.get(j));
+          break;
+        } 
+        else if (k < min){
           list.clear();
           min = k;
           list.add(dictionary.get(j));
@@ -63,7 +68,7 @@ public class AppEditDistance {
     }  
     
     end = System.currentTimeMillis();
-    System.out.println("Execution time "+(end-start)/1000);
+    System.out.println("\nExecution time "+(end-start)/1000);
   }
   
 
@@ -73,7 +78,7 @@ public class AppEditDistance {
       System.out.println(" java AppEditDistance <path dictionary> <path text>");
       return;
     } 
-  
+    
     ArrayList<String> dictionary = loadData(args[0]); 
     ArrayList<String> text = loadData(args[1]);
 
