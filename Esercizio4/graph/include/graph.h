@@ -15,4 +15,4 @@ void Graph_add_edge(Graph *, Edge *);
 
 void Graph_remove_edge(Graph *, Edge *);
 
-int Graph_edge_is_bridge(Graph */*, Edge **/);
+int Graph_is_connected(Graph *);

@@ -19,11 +19,11 @@ struct _Node {
 
 Graph * Graph_create(Edge edges[], int vertices){
 	Graph* graph = (Graph*) malloc(sizeof(Graph));
-  Node ** adj = (Node **) malloc(sizeof(Node*)*vertices);
+  Node ** adj = (Node **) malloc(sizeof(Node*)*vertices+1);
   graph->head = adj;
   graph->vertices = vertices;
   
-	for (int i = 0; i < vertices; i++)
+	for (int i = 0; i < vertices+1; i++)
 		graph->head[i] = NULL;
 
 	for (int i = 0; i < vertices-1; i++){
@@ -76,38 +76,23 @@ void Graph_dfs(Graph * graph, int start, int * visited){
   }
 }
 
-int Graph_check_is_visited(Graph * graph, int * visited){
-  for (int i = 0; i < graph->vertices; i++){
-    if (!visited[i])
-      return FALSE;
-  }
-  return TRUE;
-}
 
-int Graph_check_one_component(Graph * graph){
+int Graph_is_connected(Graph * graph){
   int visited[graph->vertices];
-
   for (int i = 0; i < graph->vertices; i++)
     visited[i] = FALSE;
   Graph_dfs(graph,1,visited);
-  if (Graph_check_is_visited)
-    return TRUE;
-  else
-    return FALSE;
-}
-
-int Graph_edge_is_bridge(Graph * graph/*, Edge * edge*/){
-  if (Graph_check_one_component(graph))
-    return TRUE;
-  else
-    return FALSE;
+  for (int i = 1; i < graph->vertices; i++)
+    if (visited[i] == FALSE) 
+      return FALSE;
+  return TRUE;
 }
 
 
 void Graph_print(Graph* graph)
 {
 	int i;
-	for (i = 0; i < graph->vertices; i++){
+	for (i = 0; i < graph->vertices+1; i++){
 		Node* ptr = graph->head[i];
 		while (ptr != NULL){
 			printf("%d -> %d (%d)\t", i, ptr->dest, ptr->weight);
@@ -116,4 +101,3 @@ void Graph_print(Graph* graph)
 		printf("\n");
 	}
 }
-

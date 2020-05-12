@@ -34,8 +34,7 @@ int main(int argc, char const *argv[]){
     i++;
   }
   fclose(file);
-
+  
   Graph * graph = Graph_create(graph_edge,vertices);
-  //Graph_print(graph);  
-  printf("Connesso: %d\n", Graph_edge_is_bridge(graph));
+  //Graph_print(graph);
 }
