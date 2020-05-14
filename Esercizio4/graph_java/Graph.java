@@ -46,23 +46,13 @@ public class Graph {
     }
   }
 
-  private int countConnectedComponents() {
-    boolean[] visited = new boolean[vertices+1];
-    int count = 0;
-    int index;
-    while((index = checkGraphIsVisited(visited))!=-1){
-        dfs(index, visited);
-        count++;
-    }
-    return count;
-  }
-
-  private int checkGraphIsVisited(boolean[] visited){
+  private boolean checkGraphIsVisited(boolean[] visited){
+    dfs(1, visited);
     for (int i = 1; i < visited.length ; i++) {
       if(!visited[i])
-        return i;
+        return false;
     }
-    return -1;
+    return true;
   }
 
   private void dfs(int start, boolean[] visited) {
@@ -76,10 +66,11 @@ public class Graph {
 
   private boolean edgeIsBridge(int source, int destination, int weight){
     removeEdge(source, destination);
-    int newCount = countConnectedComponents();
+    boolean[] visited = new boolean[vertices+1];
+    boolean check = checkGraphIsVisited(visited);
     addEdge(source, destination, weight);
 
-    if(newCount == 1){
+    if(check){
       return false;
     } else {
       return true;
@@ -102,7 +93,6 @@ public class Graph {
     removeEdge(interrogation.source, interrogation.destination);
     return false;
   }
-  
 }
   
 
