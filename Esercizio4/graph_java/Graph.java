@@ -7,7 +7,7 @@ public class Graph {
   public Graph(int vertices) {
     this.vertices = vertices;
     adjacencylist = new LinkedList[vertices+1];
-    for (int i = 1; i < vertices+1 ; i++) {
+    for (int i = 1; i <= vertices ; i++) {
       adjacencylist[i] = new LinkedList<>();
     }
   }
@@ -21,7 +21,7 @@ public class Graph {
   }
 
   public void printGraph(){
-    for (int i = 1; i < vertices+1; i++) {
+    for (int i = 1; i <= vertices; i++) {
       LinkedList<Edge> list = adjacencylist[i];
       for (int j = 0; j < list.size(); j++) {
         System.out.println("vertex " + i + " is connected to " +
@@ -46,7 +46,7 @@ public class Graph {
     }
   }
 
-  public int countConnectedComponents() {
+  private int countConnectedComponents() {
     boolean[] visited = new boolean[vertices+1];
     int count = 0;
     int index;
@@ -57,7 +57,7 @@ public class Graph {
     return count;
   }
 
-  public int checkGraphIsVisited(boolean[] visited){
+  private int checkGraphIsVisited(boolean[] visited){
     for (int i = 1; i < visited.length ; i++) {
       if(!visited[i])
         return i;
@@ -65,7 +65,7 @@ public class Graph {
     return -1;
   }
 
-  public void dfs(int start, boolean[] visited) {
+  private void dfs(int start, boolean[] visited) {
     visited[start] = true;
     for (int i = 0; i < adjacencylist[start].size(); i++) {
       int destination = adjacencylist[start].get(i).destination;
@@ -74,19 +74,35 @@ public class Graph {
     }
   }
 
-  public void edgeIsBridge(int source, int destination, int weight, Graph graph){
-    graph.removeEdge(source, destination);
-    int newCount = graph.countConnectedComponents();
+  private boolean edgeIsBridge(int source, int destination, int weight){
+    removeEdge(source, destination);
+    int newCount = countConnectedComponents();
+    addEdge(source, destination, weight);
 
     if(newCount == 1){
-      System.out.println("Given Edge ("+source+"-"+destination+") is not a BRIDGE");
+      return false;
     } else {
-      System.out.println("Given Edge ("+source+"-"+destination+") is a BRIDGE");
+      return true;
     }
-    System.out.println("-----------------------------------------");
-  
-    graph.addEdge(source, destination, weight);
   }
+
+  public boolean interrogation(Edge interrogation){
+    addEdge(interrogation.source, interrogation.destination, interrogation.weight);
+    for (int i = 1; i <= vertices; i++) {
+      LinkedList<Edge> list = adjacencylist[i];
+      for (int j = 0; j < list.size(); j++) {
+        if (list.get(j).weight > interrogation.weight){
+          if (!edgeIsBridge(list.get(j).source,list.get(j).destination,list.get(j).weight)){
+            removeEdge(interrogation.source, interrogation.destination);
+            return true;
+          }
+        }
+      }
+    }
+    removeEdge(interrogation.source, interrogation.destination);
+    return false;
+  }
+  
 }
   
 

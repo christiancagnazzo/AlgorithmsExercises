@@ -64,8 +64,19 @@ public class Interrogation {
   }
 
   public static void main(String[] args) throws IOException {
-    Graph graph = loadGraph("input.txt");
-    LinkedList<Edge> interrogation = loadInterrogation("input.txt");
-    //graph.printGraph();
+    Graph graph = loadGraph("graph_substitution_tests/test1/input.txt");
+    LinkedList<Edge> interrogation = loadInterrogation("graph_substitution_tests/test1/input.txt");
+
+    FileWriter file = new FileWriter("output.txt");
+    BufferedWriter b = new BufferedWriter(file);
+
+    for (int i = interrogation.size()-1; i >= 0 ; i--){
+      if (graph.interrogation(interrogation.get(i)))
+        b.write("YES\n");
+      else
+        b.write("NO\n");
     }
+    b.flush();
+    b.close();
+  }
 }
