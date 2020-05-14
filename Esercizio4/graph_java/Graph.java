@@ -6,8 +6,8 @@ public class Graph {
 
   public Graph(int vertices) {
     this.vertices = vertices;
-    adjacencylist = new LinkedList[vertices];
-    for (int i = 0; i < vertices ; i++) {
+    adjacencylist = new LinkedList[vertices+1];
+    for (int i = 1; i < vertices+1 ; i++) {
       adjacencylist[i] = new LinkedList<>();
     }
   }
@@ -21,7 +21,7 @@ public class Graph {
   }
 
   public void printGraph(){
-    for (int i = 0; i < vertices ; i++) {
+    for (int i = 1; i < vertices+1; i++) {
       LinkedList<Edge> list = adjacencylist[i];
       for (int j = 0; j < list.size(); j++) {
         System.out.println("vertex " + i + " is connected to " +
@@ -47,7 +47,7 @@ public class Graph {
   }
 
   public int countConnectedComponents() {
-    boolean[] visited = new boolean[vertices];
+    boolean[] visited = new boolean[vertices+1];
     int count = 0;
     int index;
     while((index = checkGraphIsVisited(visited))!=-1){
@@ -58,7 +58,7 @@ public class Graph {
   }
 
   public int checkGraphIsVisited(boolean[] visited){
-    for (int i = 0; i <visited.length ; i++) {
+    for (int i = 1; i < visited.length ; i++) {
       if(!visited[i])
         return i;
     }
