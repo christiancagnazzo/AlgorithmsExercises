@@ -9,7 +9,7 @@
 #define ERROR_EXIT_CODE 1
 #define SIZE_ARRAY 6321078
 #define NUM_RANDOM_KEYS 10000000
-#define CAPACITY 9000067
+#define CAPACITY 8
 
 int * int_pointer(int x){
   int * ris = (int *) malloc (sizeof(int));
