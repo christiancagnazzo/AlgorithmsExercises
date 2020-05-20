@@ -20,79 +20,62 @@ public class Graph {
     adjacencylist[destination].addFirst(second_edge);
   }
 
-  public void printGraph(){
-    for (int i = 1; i <= vertices; i++) {
-      LinkedList<Edge> list = adjacencylist[i];
-      for (int j = 0; j < list.size(); j++) {
-        System.out.println("vertex " + i + " is connected to " +
-        list.get(j).destination + " with weight " +  list.get(j).weight);
-      }
-    }
+  private LinkedList<Integer> shortestPath(LinkedList<Edge>[] adjacencylist, int s, int dest, int v) { 
+    int pred[] = new int[v]; 
+    int weight[] = new int[v]; 
+
+    BFS(adjacencylist, s, dest, v, pred, weight);
+
+    LinkedList<Integer> path = new LinkedList<Integer>(); 
+    LinkedList<Integer> weight_list = new LinkedList<Integer>();
+    int crawl = dest; 
+    path.add(crawl); 
+    while (pred[crawl] != -1) { 
+      path.add(pred[crawl]); 
+      weight_list.add(weight[crawl]);
+      crawl = pred[crawl]; 
+    } 
+
+    return weight_list;
   }
 
-  public void removeEdge(int source, int destination) {
-    for (int i = 0; i < adjacencylist[source].size(); i++) {
-      if(adjacencylist[source].get(i).destination == destination) {
-        adjacencylist[source].remove(i);
-        break;
-      }
-    }
 
-    for (int i = 0; i < adjacencylist[destination].size(); i++) {
-      if(adjacencylist[destination].get(i).destination == source) {
-        adjacencylist[destination].remove(i);
-        break;
-      }
-    }
-  }
+  private static boolean BFS(LinkedList<Edge>[] adj, int src, int dest, int v, int pred[], int[] weight){ 
+    LinkedList<Integer> queue = new LinkedList<Integer>(); 
 
-  private boolean checkGraphIsVisited(boolean[] visited){
-    dfs(1, visited);
-    for (int i = 1; i < visited.length ; i++) {
-      if(!visited[i])
-        return false;
-    }
-    return true;
-  }
+    boolean visited[] = new boolean[v]; 
+    for (int i = 0; i < v; i++) { 
+      visited[i] = false; 
+      weight[i] = -1;
+      pred[i] = -1; 
+    } 
 
-  private void dfs(int start, boolean[] visited) {
-    visited[start] = true;
-    for (int i = 0; i < adjacencylist[start].size(); i++) {
-      int destination = adjacencylist[start].get(i).destination;
-      if (!visited[destination])
-        dfs(destination, visited);
-    }
-  }
+    visited[src] = true; 
+    queue.add(src); 
 
-  private boolean edgeIsBridge(int source, int destination, int weight){
-    removeEdge(source, destination);
-    boolean[] visited = new boolean[vertices+1];
-    boolean check = checkGraphIsVisited(visited);
-    addEdge(source, destination, weight);
+    while (!queue.isEmpty()) { 
+      int u = queue.remove(); 
+      for (int i = 0; i < adj[u].size(); i++) { 
+        if (visited[adj[u].get(i).destination] == false) { 
+          visited[adj[u].get(i).destination] = true; 
+          pred[adj[u].get(i).destination] = u; 
+          weight[adj[u].get(i).destination] = adj[u].get(i).weight;
+          queue.add(adj[u].get(i).destination); 
 
-    if(check){
-      return false;
-    } else {
-      return true;
-    }
+          if (adj[u].get(i).destination == dest) 
+            return true; 
+        } 
+      } 
+    } 
+    return false; 
   }
 
   public boolean interrogation(Edge interrogation){
-    addEdge(interrogation.source, interrogation.destination, interrogation.weight);
-    for (int i = 1; i <= vertices; i++) {
-      LinkedList<Edge> list = adjacencylist[i];
-      for (int j = 0; j < list.size(); j++) {
-        if (list.get(j).weight > interrogation.weight){
-          if (!edgeIsBridge(list.get(j).source,list.get(j).destination,list.get(j).weight)){
-            removeEdge(interrogation.source, interrogation.destination);
-            return true;
-          }
-        }
-      }
+    LinkedList<Integer> path = shortestPath(adjacencylist, interrogation.source,interrogation.destination, vertices+1);
+    for (int i = path.size() - 1; i >= 0; i--) { 
+      if (path.get(i) > interrogation.weight)
+      return true;
     }
-    removeEdge(interrogation.source, interrogation.destination);
     return false;
   }
 }
-  
-

@@ -59,14 +59,23 @@ public class Interrogation {
       }
       i++;
     } while (i < interrogation);
-    
+
+    b.close();
     return list;
   }
 
   public static void main(String[] args) throws IOException {
-    Graph graph = loadGraph("graph_substitution_tests/test1/input.txt");
-    LinkedList<Edge> interrogation = loadInterrogation("graph_substitution_tests/test1/input.txt");
-
+    Graph graph = loadGraph("graph_substitution_tests/test2/input.txt");
+    LinkedList<Edge> interrogation = loadInterrogation("graph_substitution_tests/test2/input.txt");
+    /*Graph graph = new Graph(6);
+    graph.addEdge(1, 2, 2);
+    graph.addEdge(1, 3, 3);
+    graph.addEdge(3, 4, 5);
+    graph.addEdge(3, 5, 4);
+    graph.addEdge(2, 6, 4);
+    LinkedList<Edge> interrogation = new LinkedList<>();
+    interrogation.add(new Edge(1, 4, 4));*/
+   
     FileWriter file = new FileWriter("output.txt");
     BufferedWriter b = new BufferedWriter(file);
 
@@ -76,6 +85,7 @@ public class Interrogation {
       else
         b.write("NO\n");
     }
+
     b.flush();
     b.close();
   }
