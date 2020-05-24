@@ -65,22 +65,27 @@ public class Interrogation {
   }
 
   public static void main(String[] args) throws IOException {
-    Graph graph = loadGraph("graph_substitution_tests/test2/input.txt");
-    LinkedList<Edge> interrogation = loadInterrogation("graph_substitution_tests/test2/input.txt");
+    Graph graph = loadGraph("graph_substitution_tests/test4/input.txt");
+    LinkedList<Edge> interrogation = loadInterrogation("graph_substitution_tests/test4/input.txt");
     /*Graph graph = new Graph(6);
     graph.addEdge(1, 2, 2);
     graph.addEdge(1, 3, 3);
     graph.addEdge(3, 4, 5);
     graph.addEdge(3, 5, 4);
-    graph.addEdge(2, 6, 4);
-    LinkedList<Edge> interrogation = new LinkedList<>();
-    interrogation.add(new Edge(1, 4, 4));*/
+    graph.addEdge(2, 6, 4);*/
+    //  LinkedList<Edge> interrogation = new LinkedList<>();
+    //interrogation.add(new Edge(257, 249, 4));
+    //int vertices = 6;
+    int vertices = graph.vertices;
+    int[] weight = new int[vertices+1];
+    int[] pred = new int[vertices+1];
+    graph.BFS(vertices+1, pred, weight);
    
     FileWriter file = new FileWriter("output.txt");
     BufferedWriter b = new BufferedWriter(file);
 
     for (int i = interrogation.size()-1; i >= 0 ; i--){
-      if (graph.interrogation(interrogation.get(i)))
+      if (graph.interrogation(interrogation.get(i),pred,weight))
         b.write("YES\n");
       else
         b.write("NO\n");
@@ -89,4 +94,6 @@ public class Interrogation {
     b.flush();
     b.close();
   }
+
+ 
 }
