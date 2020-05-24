@@ -6,12 +6,12 @@ public class Interrogation {
 
     FileReader filein = new FileReader(file_name);   
     BufferedReader b = new BufferedReader(filein);      
-    int vertices;
+    int vertices, max_weight = 0;
 
     String s = "";
     s = b.readLine();
     vertices = Integer.parseInt(s);
-    Graph new_graph = new Graph(vertices);
+    Graph graph = new Graph(vertices);
 
     int i = 1;
     while (i < vertices){
@@ -19,16 +19,22 @@ public class Interrogation {
       StringTokenizer tok = new StringTokenizer(s);
     
       while (tok.hasMoreTokens()){
-        new_graph.addEdge(Integer.parseInt(tok.nextToken()),Integer.parseInt(tok.nextToken()),Integer.parseInt(tok.nextToken()));
+        int source = Integer.parseInt(tok.nextToken());
+        int destination = Integer.parseInt(tok.nextToken());
+        int weight = Integer.parseInt(tok.nextToken());
+        graph.addEdge(source, destination, weight);
+        if (weight > max_weight)
+          max_weight = weight;
       }
       i++;
     } 
 
+    graph.setMaxWeight(max_weight);
     filein.close();
-    return new_graph; 
+    return graph; 
   }
 
-  static LinkedList<Edge> loadInterrogation(String file_name) throws IOException {
+  static ArrayList<Edge> loadInterrogation(String file_name) throws IOException {
     
     FileReader filein = new FileReader(file_name);   
     BufferedReader b = new BufferedReader(filein); 
@@ -46,7 +52,7 @@ public class Interrogation {
     s = b.readLine();
     interrogation = Integer.parseInt(s);
     
-    LinkedList<Edge> list = new LinkedList<>();
+    ArrayList<Edge> list = new ArrayList<>();
 
     i = 0;
     do {
@@ -55,7 +61,7 @@ public class Interrogation {
 
       while (tok.hasMoreTokens()){
         Edge new_edge = new Edge(Integer.parseInt(tok.nextToken()),Integer.parseInt(tok.nextToken()),Integer.parseInt(tok.nextToken()));
-        list.addFirst(new_edge);
+        list.add(new_edge);
       }
       i++;
     } while (i < interrogation);
@@ -65,34 +71,31 @@ public class Interrogation {
   }
 
   public static void main(String[] args) throws IOException {
-    Graph graph = loadGraph("graph_substitution_tests/test4/input.txt");
-    LinkedList<Edge> interrogation = loadInterrogation("graph_substitution_tests/test4/input.txt");
-    /*Graph graph = new Graph(6);
-    graph.addEdge(1, 2, 2);
-    graph.addEdge(1, 3, 3);
-    graph.addEdge(3, 4, 5);
-    graph.addEdge(3, 5, 4);
-    graph.addEdge(2, 6, 4);*/
-    //  LinkedList<Edge> interrogation = new LinkedList<>();
-    //interrogation.add(new Edge(257, 249, 4));
-    //int vertices = 6;
-    int vertices = graph.vertices;
+    if (args.length != 2){
+      System.out.println("Parameters error - Usage: java Interrogation <file input> <file output>");
+      return;
+    }
+    
+    Graph graph = loadGraph(args[0]);
+    ArrayList<Edge> list = loadInterrogation(args[0]);
+
+    int vertices = graph.getVertices();
     int[] weight = new int[vertices+1];
     int[] pred = new int[vertices+1];
-    graph.BFS(vertices+1, pred, weight);
+
+    graph.bfs(vertices+1, pred, weight);
    
-    FileWriter file = new FileWriter("output.txt");
-    BufferedWriter b = new BufferedWriter(file);
+    FileWriter file = new FileWriter(args[1]);
+    BufferedWriter f = new BufferedWriter(file);
 
-    for (int i = interrogation.size()-1; i >= 0 ; i--){
-      if (graph.interrogation(interrogation.get(i),pred,weight))
-        b.write("YES\n");
+    for (int j = 0; j < list.size(); j++){
+      if (graph.interrogation(list.get(j),pred,weight))
+        f.write("YES\n");
       else
-        b.write("NO\n");
+        f.write("NO\n");
     }
-
-    b.flush();
-    b.close();
+    f.flush();
+    f.close();
   }
 
  
