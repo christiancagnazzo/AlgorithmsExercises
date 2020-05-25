@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+
 public class Graph {
   private int vertices;
   private ArrayList<Edge> [] adjacencylist;
@@ -84,24 +85,26 @@ public class Graph {
   }
 
   private int lca(int u, int v, int[] pred){
-    int lca;
     boolean[] visited = new boolean[vertices+1];
     
-    while(true){
-      visited[u] = true; 
-      if(u == 1){
-        break; 
+    visited[u] = true;
+    visited[v] = true;
+
+    while (u != 1 || v != 1){
+      if (pred[u] != -1){
+        u = pred[u];
+        if (visited[u])
+          return u;
+        visited[u] = true;
       }
-      u = pred[u]; 
+      if (pred[v] != -1){
+        v = pred[v];
+        if (visited[v])
+          return v;
+        visited[v] = true; 
+      }
     }
 
-    while(true){
-      if(visited[v]){
-        lca = v;    
-        break;  
-      }
-      v = pred[v]; 
-    }
-    return lca; 
+  return u;
   }
 }
