@@ -22,7 +22,7 @@ typedef struct {
  } Options;
 
 void print_usage() {
-  printf("Usage: app < -1 | -2 > < -A -B -C > <filename>\n");
+  printf("Usage: app < -1 | -2 | -3 > < -A | -B | -C > <filename>\n");
   printf("  -1: sort through the insertion sort algorithm\n");
   printf("  -2: sort through the quick sort algorithm\n");
   printf("  -3: sort through the quick sort three way algorithm\n");
