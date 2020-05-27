@@ -1,3 +1,6 @@
+package algorithmeditdistance.testeditdistance;
+
+import algorithmeditdistance.*;
 import org.junit.*;
 import static org.junit.Assert.*;
 

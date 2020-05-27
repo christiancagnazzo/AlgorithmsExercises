@@ -1,5 +1,8 @@
+package editdistanceapp;
+
 import java.io.*;
 import java.util.ArrayList;
+import algorithmeditdistance.EditDistanceAlgorithm;
 
 public class AppEditDistance {
   

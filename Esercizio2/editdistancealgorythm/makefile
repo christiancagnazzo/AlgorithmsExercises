@@ -1,13 +1,13 @@
-JFLAGS = -cp .:Resources/hamcrest-core-1.3.jar:Resources/junit-4.12.jar:
+JFLAGS = -cp ..:.:Resources/hamcrest-core-1.3.jar:Resources/junit-4.12.jar:
 JC = javac
 .SUFFIXES: .java .class
 .java.class:
 	$(JC) $(JFLAGS) $*.java
 
 CLASSES = \
-	EditDistanceAlgorithm.java \
-	TestEditDistanceAlgorithm.java \
-	AppEditDistance.java
+	algorithmeditdistance/EditDistanceAlgorithm.java \
+	algorithmeditdistance/testeditdistance/TestEditDistanceAlgorithm.java \
+	editdistanceapp/AppEditDistance.java
 	
 
 all: classes
@@ -15,12 +15,14 @@ all: classes
 classes: $(CLASSES:.java=.class)
 
 clean:
-	$(RM) *.class
+	$(RM) algorithmeditdistance/*.class
+	$(RM) algorithmeditdistance/testeditdistance/*.class
+	$(RM) editdistanceapp/*.class
 	
 test: 
-	java $(JFLAGS) org.junit.runner.JUnitCore TestEditDistanceAlgorithm
+	java $(JFLAGS) org.junit.runner.JUnitCore algorithmeditdistance.testeditdistance.TestEditDistanceAlgorithm
 	
 app: 
-	java AppEditDistance dataset/dictionary.txt dataset/correctme.txt
+	java editdistanceapp/AppEditDistance dataset/dictionary.txt dataset/correctme.txt
 	
 
