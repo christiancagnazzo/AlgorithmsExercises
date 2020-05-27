@@ -6,7 +6,7 @@ public class Interrogation {
 
     FileReader filein = new FileReader(file_name);   
     BufferedReader b = new BufferedReader(filein);      
-    int vertices, max_weight = 0;
+    int vertices;
 
     String s = "";
     s = b.readLine();
@@ -23,13 +23,10 @@ public class Interrogation {
         int destination = Integer.parseInt(tok.nextToken());
         int weight = Integer.parseInt(tok.nextToken());
         graph.addEdge(source, destination, weight);
-        if (weight > max_weight)
-          max_weight = weight;
       }
       i++;
     } 
 
-    graph.setMaxWeight(max_weight);
     filein.close();
     return graph; 
   }
@@ -95,6 +92,7 @@ public class Interrogation {
       else
         f.write("NO\n");
     }
+    
     f.flush();
     f.close();
   }

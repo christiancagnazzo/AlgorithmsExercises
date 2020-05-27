@@ -9,15 +9,11 @@ public class Graph {
 
   public Graph(int vertices) {
     this.vertices = vertices;
+    this.max_weight = Integer.MIN_VALUE;
     this.adjacencylist = new ArrayList[vertices+1];
     for (int i = 1; i <= vertices ; i++) {
       adjacencylist[i] = new ArrayList<>();
     }
-    this.max_weight = 0;
-  }
-
-  public void setMaxWeight(int weight){
-    this.max_weight = weight;
   }
 
   public int getVertices(){
@@ -30,6 +26,9 @@ public class Graph {
   
     Edge second_edge = new Edge(destination, source, weight);
     adjacencylist[destination].add(second_edge);
+
+    if (weight > this.max_weight)
+      this.max_weight = weight;
   }
 
   public void bfs(int v, int pred[], int[] weight, int[] levels){ 
