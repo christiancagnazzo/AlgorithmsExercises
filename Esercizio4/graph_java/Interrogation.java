@@ -82,14 +82,15 @@ public class Interrogation {
     int vertices = graph.getVertices();
     int[] weight = new int[vertices+1];
     int[] pred = new int[vertices+1];
+    int[] levels = new int[vertices+1];
 
-    graph.bfs(vertices+1, pred, weight);
+    graph.bfs(vertices+1, pred, weight, levels);
    
     FileWriter file = new FileWriter(args[1]);
     BufferedWriter f = new BufferedWriter(file);
 
     for (int j = 0; j < list.size(); j++){
-      if (graph.interrogation(list.get(j),pred,weight))
+      if (graph.interrogation(list.get(j),pred,weight,levels))
         f.write("YES\n");
       else
         f.write("NO\n");

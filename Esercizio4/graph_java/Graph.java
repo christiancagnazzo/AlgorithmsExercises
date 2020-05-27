@@ -32,7 +32,7 @@ public class Graph {
     adjacencylist[destination].add(second_edge);
   }
 
-  public void bfs(int v, int pred[], int[] weight){ 
+  public void bfs(int v, int pred[], int[] weight, int[] levels){ 
     LinkedList<Integer> queue = new LinkedList<Integer>(); 
     int src = 1;
 
@@ -44,12 +44,14 @@ public class Graph {
     } 
 
     visited[src] = true; 
+    levels[src] = 0;
     queue.add(src); 
 
     while (!queue.isEmpty()) { 
       int u = queue.remove(); 
       for (int i = 0; i < adjacencylist[u].size(); i++) { 
         if (visited[adjacencylist[u].get(i).destination] == false) { 
+          levels[adjacencylist[u].get(i).destination] = levels[u] + 1;
           visited[adjacencylist[u].get(i).destination] = true; 
           pred[adjacencylist[u].get(i).destination] = u; 
           weight[adjacencylist[u].get(i).destination] = adjacencylist[u].get(i).weight;
@@ -59,52 +61,36 @@ public class Graph {
     } 
   }
 
-  public boolean interrogation(Edge interrogation, int[] pred, int[] weight){
+  public boolean interrogation(Edge interrogation, int[] pred, int[] weight, int[] levels){
     if (interrogation.weight >= this.max_weight)
       return false;
     
-    int cparent = lca(interrogation.source, interrogation.destination, pred);
     int l = interrogation.source;
     int r = interrogation.destination;
-  
-    while (l != r){  
-      if (l != cparent){
-        if (weight[l] > interrogation.weight)
-          return true;
-        else
-          l = pred[l];
-      }
-      if (r != cparent){
-        if (weight[r] > interrogation.weight)
-          return true;
-        else
-          r = pred[r];
-      }
-    }
-    return false;
-  }
 
-  private int lca(int u, int v, int[] pred){
-    boolean[] visited = new boolean[vertices+1];
+    int min_lev = Math.min(levels[l], levels[r]);
     
-    visited[u] = true;
-    visited[v] = true;
-
-    while (u != 1 || v != 1){
-      if (pred[u] != -1){
-        u = pred[u];
-        if (visited[u])
-          return u;
-        visited[u] = true;
-      }
-      if (pred[v] != -1){
-        v = pred[v];
-        if (visited[v])
-          return v;
-        visited[v] = true; 
-      }
+    while (levels[l] != min_lev){
+      if (weight[l] > interrogation.weight)
+        return true;
+      l = pred[l];
     }
 
-  return u;
+    while (levels[r] != min_lev){
+      if (weight[r] > interrogation.weight)
+        return true;
+      r = pred[r];
+    }
+
+    while (l != r){
+      if (weight[l] > interrogation.weight)
+        return true; 
+      l = pred[l];
+      if (weight[r] > interrogation.weight)
+        return true; 
+      r = pred[r];
+    }
+
+    return false;
   }
 }
