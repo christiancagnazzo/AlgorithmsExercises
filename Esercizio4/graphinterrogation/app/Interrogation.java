@@ -1,5 +1,9 @@
+package app;
+
 import java.io.*;
 import java.util.*;
+import edge.Edge;
+import graph.Graph;
 
 public class Interrogation {
   static Graph loadGraph(String file_name) throws IOException {

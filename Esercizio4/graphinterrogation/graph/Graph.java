@@ -1,6 +1,8 @@
+package graph;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
-
+import edge.Edge;
 
 public class Graph {
   private int vertices;
@@ -31,6 +33,12 @@ public class Graph {
       this.max_weight = weight;
   }
 
+
+  /* Visit of the graph. It requires as 
+  input the vertex from which to start the visit and three arrays 
+  that are filled with parent and the level of each vertex and the 
+  weight of the branch that connects each node to the parent */ 
+
   public void bfs(int v, int pred[], int[] weight, int[] levels){ 
     LinkedList<Integer> queue = new LinkedList<Integer>(); 
     int src = 1;
@@ -59,6 +67,12 @@ public class Graph {
       } 
     } 
   }
+
+
+  /* Returns true if the edge passed as input can replace another edge
+  by keeping the cycle connected and reducing its weight. It also requires 
+  as input the arrays of the parent, the level and weight of 
+  the branch with the dad of each node obtained from the bfs */
 
   public boolean interrogation(Edge interrogation, int[] pred, int[] weight, int[] levels){
     if (interrogation.weight >= this.max_weight)
